@@ -1,0 +1,11 @@
+Revision history for Perl extension Qmail::Envelope.
+
+0.50  Thu Apr 16 00:15:56 2004
+	- method name spelling error fixed (mja)
+	- wrote initial documentation
+	- wrote initial tests
+
+0.01  Thu Apr 15 23:27:56 2004
+	- original version; created by h2xs 1.22 with options
+		-X -n Qmail::Envelope
+
