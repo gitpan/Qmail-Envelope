@@ -1,15 +1,7 @@
-use 5.008;
+use 5.005;
 use ExtUtils::MakeMaker;
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
-
-eval { require 5.6.0 }
-    or die <<'EOD';
-###
-## I have not tested this module in versions of perl lower than 5.8.0.
-## However, 5.6.0 should be fine.
-###
-EOD
 
 WriteMakefile(
     'NAME'		=> 'Qmail::Envelope',
