@@ -1,7 +1,7 @@
 package Qmail::Envelope;
 use strict;
 
-our $VERSION = '0.50';
+our $VERSION = '0.52';
 
 
 ## constructor

@@ -1,5 +1,8 @@
 Revision history for Perl extension Qmail::Envelope.
 
+0.52  Sun Oct 31 18:17:56 EST 2004
+	- version number cpan fix ... oops
+
 0.51  Sun Oct 31 17:28:16 EST 2004
 	- Applied patch from Peter Pentchev, which elegantly rewrote
           init_envelope_data, and ignores data after \0\0 at the end
