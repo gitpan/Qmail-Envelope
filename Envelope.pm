@@ -33,27 +33,12 @@ sub new {
 sub init_envelope_data {
     my $self = shift;
 
-    ## split on the null byte, with no more than two segments returned
-    my ($env_returnpath, $env_recips) = split( /\0/, $self->{'data'}, 2);
+    ## elegant rewrite by Peter Pentchev -- thanks!
+    return 0 unless $self->{'data'} =~ /^F([^\0]+)\0T(.*?)\0\0/;
+    my ($sender, @recips) = ($1, split(/\0T/, $2));
 
-    ## get the return path (From:)
-    $env_returnpath =~ m/^F(.*)/o;
-    my $returnpath = $1;
-
-    $self->{'sender'} = $returnpath;
-
-    ## split on \0T
-    my $recips = $env_recips;
-    $recips = [ split(/\0T/, $recips) ];
-
-    $recips->[0] =~ s/^T//o;  ## chop the leading T off of the first recipient
-
-    ## hose null bytes at the end of each address.
-    for (my $i = 0; $i < scalar(@$recips); $i++ ) {
-        $recips->[$i] =~ s/\0+//g;
-    }
-
-    $self->{'recips'} = $recips;
+    $self->{'sender'} = $sender;
+    $self->{'recips'} = [ @recips ];
 
     $self->map_recips;
 
@@ -241,6 +226,9 @@ Qmail::Envelope - Perl module modifying qmail envelope strings.
 
   ## get envelope sender
   my $sender = $E->sender;
+  
+  ## set envelope sender 
+  $E->sender('blarch@chunk.com');
 
   ## get the total number of recipients in the envelope.
   ## duplicates are counted.
@@ -272,8 +260,7 @@ Anyway, the envelope is a string which contains the sender and all of
 the recipients of a mail message.  This envelope may or may not
 match the headers of the mail message (think cc and bcc).  The envelope
 tells qmail-queue where the message is from, and where it is going
-to.  As far as I can tell, qmail-queue does not read the headers
-of the mail message at all.
+to.  
 
 This module my help you if you have decided to insert a perl script
 in between qmail-smtpd and qmail-queue.  There is an interesting open
